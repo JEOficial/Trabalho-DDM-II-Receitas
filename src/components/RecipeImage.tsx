@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, ImageSourcePropType } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 
 interface Props {
   uri: string;
@@ -12,8 +12,8 @@ export const RecipeImage = ({ uri }: Props) => {
 const styles = StyleSheet.create({
   image: {
     width: '100%',
-    height: 200,
+    height: 220,
     borderRadius: 12,
+    marginBottom: 15,
   },
 });
-

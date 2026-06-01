@@ -1,40 +1,63 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { RecipeImage } from './RecipeImage';
-import { RecipeButton } from './RecipeButton';
+import { TouchableOpacity, Text, Image, StyleSheet, View } from 'react-native';
 
 interface Props {
   title: string;
   imageUri: string;
   onOpen: () => void;
+  isDarkMode?: boolean;
 }
 
-export const RecipeCard = ({ title, imageUri, onOpen }: Props) => {
+export const RecipeCard = ({ title, imageUri, onOpen, isDarkMode }: Props) => {
   return (
-    <View style={styles.card}>
-      <RecipeImage uri={imageUri} />
-      <Text style={styles.cardTitle}>{title}</Text>
-      <RecipeButton title="Ver Receita" onPress={onOpen} />
-    </View>
+    <TouchableOpacity 
+      style={[styles.card, isDarkMode && styles.cardDark]} 
+      onPress={onOpen}
+      activeOpacity={0.8}
+    >
+      <Image source={{ uri: imageUri }} style={styles.image} />
+      <View style={styles.infoContainer}>
+        <Text style={[styles.title, isDarkMode && styles.textDark]}>{title}</Text>
+        <Text style={styles.linkText}>Ver Receita →</Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#FFF',
-    borderRadius: 15,
-    padding: 15,
-    marginBottom: 20,
-    elevation: 4, // Sombra Android
-    shadowColor: '#000', // Sombra iOS
+    borderRadius: 12,
+    marginBottom: 15,
+    overflow: 'hidden',
+    elevation: 3,
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
-  cardTitle: {
-    fontSize: 20,
+  cardDark: {
+    backgroundColor: '#2A2A2A',
+  },
+  image: {
+    width: '100%',
+    height: 180,
+  },
+  infoContainer: {
+    padding: 15,
+  },
+  title: {
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
-    marginTop: 10,
+    marginBottom: 5,
+  },
+  textDark: {
+    color: '#FFF',
+  },
+  linkText: {
+    color: '#FF6347',
+    fontWeight: '600',
+    fontSize: 14,
   },
 });

@@ -5,47 +5,47 @@ interface Props {
   title: string;
   ingredients: string;
   instructions: string;
+  isDarkMode?: boolean;
 }
 
-export const RecipeContent = ({ title, ingredients, instructions }: Props) => {
+export const RecipeContent = ({ title, ingredients, instructions, isDarkMode }: Props) => {
   return (
     <View style={styles.container}>
-      {/* Título com destaque maior */}
-      <Text style={styles.mainTitle}>{title}</Text>
+      <Text style={[styles.mainTitle, isDarkMode && styles.textDark]}>{title}</Text>
 
-      {/* Seção de Ingredientes */}
       <Text style={styles.sectionTitle}>📋 Ingredientes</Text>
-      <Text style={styles.bodyText}>{ingredients}</Text>
+      <Text style={[styles.bodyText, isDarkMode && styles.textDark]}>{ingredients}</Text>
 
-      {/* Seção de Preparo */}
       <Text style={styles.sectionTitle}>👨‍🍳 Modo de Preparo</Text>
-      <Text style={styles.bodyText}>{instructions}</Text>
+      <Text style={[styles.bodyText, isDarkMode && styles.textDark]}>{instructions}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 15,
+    paddingVertical: 10,
   },
   mainTitle: {
     fontSize: 26,
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: 20,
+    marginBottom: 15,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#FF6347', // Cor de destaque para os subtítulos
-    marginTop: 15,
-    marginBottom: 5,
+    color: '#FF6347',
+    marginTop: 20,
+    marginBottom: 8,
     textTransform: 'uppercase',
   },
   bodyText: {
     fontSize: 16,
     lineHeight: 24,
     color: '#555',
-    textAlign: 'justify',
+  },
+  textDark: {
+    color: '#DDD',
   },
 });
