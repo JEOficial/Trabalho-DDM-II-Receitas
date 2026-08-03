@@ -129,7 +129,8 @@ export default function App() {
 
               <RecipeActions
                 onEdit={() => setIsEditing(true)}
-                onDelete={() => handleDeleteRecipe(selectedRecipe.id)}
+                // Adicionamos o "?" por segurança. Se a receita não existir, não dá erro.
+                onDelete={() => handleDeleteRecipe(selectedRecipe?.id || '')}
               />
 
               <RecipeContent
