@@ -1,38 +1,45 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native';
-import { auth } from '@/app/firebaseConfig'; // Ajuste o caminho conforme o seu projeto
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator, Platform } from 'react-native';
+import { auth } from '../app/firebaseConfig'; 
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { firebaseConfig } from '@/app/firebaseConfig';
+
+// Função para garantir que os alertas funcionem na Web e no Celular
+const showAlert = (title: string, message: string) => {
+  if (Platform.OS === 'web') {
+    window.alert(`${title}\n${message}`);
+  } else {
+    Alert.alert(title, message);
+  }
+};
 
 export const AuthScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLogin, setIsLogin] = useState(true); // Controla se está na tela de Login ou Cadastro
+  const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  // Função de Login
   const handleLogin = async () => {
-    if (!email || !password) return Alert.alert('Erro', 'Preencha todos os campos!');
+    if (!email || !password) return showAlert('Erro', 'Preencha todos os campos!');
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // O app/index.tsx vai detectar o login automaticamente!
     } catch (error: any) {
-      Alert.alert('Erro no Login', 'Verifique se o e-mail e senha estão corretos.');
+      console.error(error); // Mostra o erro técnico no console
+      showAlert('Erro no Login', error.message || 'Verifique se o e-mail e senha estão corretos.');
     } finally {
       setLoading(false);
     }
   };
 
-  // Função de Cadastro
   const handleRegister = async () => {
-    if (!email || !password) return Alert.alert('Erro', 'Preencha todos os campos!');
+    if (!email || !password) return showAlert('Erro', 'Preencha todos os campos!');
     setLoading(true);
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      Alert.alert('Sucesso!', 'Conta criada com sucesso!');
+      showAlert('Sucesso!', 'Conta criada com sucesso! Você já está logado.');
     } catch (error: any) {
-      Alert.alert('Erro no Cadastro', error.message);
+      console.error(error); // Mostra o erro técnico no console
+      showAlert('Erro no Cadastro', error.message);
     } finally {
       setLoading(false);
     }
